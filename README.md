@@ -449,7 +449,7 @@ Utilisation Timer contrôlé + Rx.
 - Simulation réaliste
 Passage d’aléatoire brut à modèle pseudo-physique.
 
--Performance graphique
+- Performance graphique
 Limitation données + adaptation dynamique axes.
 
 
@@ -487,7 +487,7 @@ Le projet ne se limite pas à une interface graphique.
 ---
 ---
 
-# FONCTIONNALITÉS MISES EN PLACE
+# FONCTIONNALITÉS MISES EN PLACE (EN GENERAL)
 ## 1. Surveillance Temps Réel des Machines
 ### 1.1 Dashboard Principal (Home)
 Ce que fait cette page
