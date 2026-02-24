@@ -999,4 +999,4 @@ Certaines fonctionnalités ont évolué au fil des itérations, avec des phases 
 ---
 
 # Lien drive pour la capture video simple du projet compilé sur un émulateur
-  <!-- met le lien ver le drive ici et supprime le commentaire, -->
+ https://drive.google.com/file/d/13B51pyyLvws8C5jw3GWjRc06AcWdm6Ru/view?usp=sharing
