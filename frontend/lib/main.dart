@@ -145,7 +145,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/history_page', page: () => TimeMachinePage()),
         GetPage(name: '/alerts_page', page: () =>  AlertsPage()),
         GetPage(name: '/machine_details', page: () => const EquipmentDetailPage()),
-        // Ajoute ici tes autres pages si nécessaire
+        // J'ajoute les routes
       ],
       
       // Note : On retire le "home: Scaffold" ici car GetX gère la navigation 

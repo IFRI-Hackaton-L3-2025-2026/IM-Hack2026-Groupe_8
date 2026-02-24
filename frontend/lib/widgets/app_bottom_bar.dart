@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// Widget a utilisé dans toute les pages pour la bottom bar
 class AppBottomBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;

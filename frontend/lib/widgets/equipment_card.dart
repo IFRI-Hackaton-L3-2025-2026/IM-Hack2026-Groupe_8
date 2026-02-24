@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// A utilisé dans la homePage
 class EquipmentCard extends StatelessWidget {
   final String name;
   final String type;
