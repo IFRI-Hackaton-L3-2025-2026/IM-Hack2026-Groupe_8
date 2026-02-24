@@ -639,6 +639,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:frontend/widgets/app_bottom_bar.dart';
 import 'package:frontend/services/api_service.dart';
+import 'package:frontend/controllers/AlertsController.dart'; // Import important
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -666,13 +667,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    
+    // Initialisation du controller d'alertes s'il n'existe pas déjà
+    if (!Get.isRegistered<AlertsController>()) {
+      Get.put(AlertsController());
+    }
+
     _blinkController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
     )..repeat(reverse: true);
 
     loadMachines();
-    // Rafraîchissement toutes le 5 secondes pour capter les changements du serveur
+    
     Timer.periodic(const Duration(seconds: 5), (timer) {
       if (mounted) loadMachines();
     });
@@ -695,7 +702,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       int maintenance = 0;
 
       List processed = data.map((m) {
-        // --- LOGIQUE SYNCHRONISÉE AVEC LE SERVEUR ---
         String status = m['status'] ?? "active";
         String displayState = "healthy"; 
 
@@ -792,12 +798,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ),
       ),
+      // --- NAVIGATION MISE À JOUR (INDEX 0, 1, 2) ---
       bottomNavigationBar: AppBottomBar(
         currentIndex: 0,
         onTap: (index) {
-          if (index == 1) Get.offNamed('/equipment_page');
-          if (index == 2) Get.offNamed('/history_page');
-          if (index == 3) Get.offNamed('/alerts_page');
+          if (index == 0) return; // Déjà sur Home
+          if (index == 1) Get.offNamed('/history_page');
+          if (index == 2) Get.offNamed('/alerts_page');
         },
       ),
     );
@@ -886,7 +893,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  // --- WIDGETS DE STRUCTURE (Header & Stats) ---
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -944,7 +950,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return ChoiceChip(
       label: Text(label),
       selected: isSelected,
-      onSelected: (val) { if (val) { activeFilter = label; _applyFilter(); } },
+      onSelected: (val) { if (val) { setState(() { activeFilter = label; _applyFilter(); }); } },
       selectedColor: color.withOpacity(0.3),
       backgroundColor: const Color(0xFF111827),
       labelStyle: TextStyle(color: isSelected ? color : Colors.white54, fontWeight: FontWeight.bold, fontSize: 12),
