@@ -1075,17 +1075,23 @@ import '../widgets/app_bottom_bar.dart';
 
 class TimeMachinePage extends StatelessWidget {
   final controller = Get.put(TimeMachineController());
-  final int _currentIndex = 2;
+  final int _currentIndex = 1;
 
    TimeMachinePage({super.key});
 
+  // Correction 2 : Mise à jour de la logique de redirection
   void _onBottomTap(int index) {
     if (index == _currentIndex) return;
     switch (index) {
-      case 0: Get.offAllNamed('/home_page'); break;
-      case 1: Get.offNamed('/equipment_page'); break;
-      case 2: break;
-      case 3: Get.offNamed('/alerts_page'); break;
+      case 0: 
+        Get.offAllNamed('/home_page'); 
+        break;
+      case 1: 
+        // Déjà sur History
+        break; 
+      case 2: 
+        Get.offNamed('/alerts_page'); 
+        break;
     }
   }
   

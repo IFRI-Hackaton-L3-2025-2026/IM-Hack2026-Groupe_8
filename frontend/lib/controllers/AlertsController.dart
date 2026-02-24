@@ -15,16 +15,22 @@ class AlertsController extends GetxController {
   Future<void> fetchRiskyMachines() async {
     try {
       isLoading(true);
-      final List<dynamic> data = await api.getAlerts();
+      // Utilise getMachines() ou getAlerts() selon ce qui renvoie le statut à jour
+      final List<dynamic> data = await api.getMachines(); 
       
-      // On filtre et on force le cast en Map<String, dynamic>
+      // FILTRAGE CORRIGÉ
       riskyAlerts.value = data.where((m) {
+        // 1. La machine est en panne
         bool isDown = m['status'] == "en panne";
-        bool isRisky = m['failure_next_24h'] == 1;
-        bool isMaintenance = (m['maintenance_age_days'] ?? 0) > 100;
         
-        return isDown || isRisky || isMaintenance;
-      }).map((e) => e as Map<String, dynamic>) // Convertit chaque élément
+        // 2. La machine est officiellement en maintenance (via ton API)
+        bool isMaintenance = m['status'] == "maintenance";
+        
+        // 3. (Optionnel) L'IA prédit une panne (si tu veux garder l'alerte prédictive)
+        bool isRisky = m['failure_next_24h'] == 1;
+        
+        return isDown || isMaintenance || isRisky;
+      }).map((e) => e as Map<String, dynamic>)
         .toList();
 
     } catch (e) {

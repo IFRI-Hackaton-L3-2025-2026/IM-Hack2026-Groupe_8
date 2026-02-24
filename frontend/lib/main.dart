@@ -105,14 +105,19 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:frontend/controllers/AlertsController.dart';
 import 'package:frontend/screens/MachineDetailPage.dart';
 import 'package:frontend/screens/alerts_page.dart';
-import 'package:get/get.dart'; // IMPORTANT : Import de GetX
+import 'package:get/get.dart'; 
 import 'package:frontend/screens/TimeMachinePage.dart';
-import 'package:frontend/screens/equipment_page.dart';
 import 'package:frontend/screens/home_page.dart';
 
 void main() {
+  // On s'assure que GetX est prêt
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // ON INITIALISE LE CONTROLLER ICI GLOBALEMENT
+  Get.put(AlertsController());
   runApp(const MyApp());
 }
 
@@ -141,7 +146,6 @@ class MyApp extends StatelessWidget {
       // REMPLACEMENT de routes par getPages (format GetX)
       getPages: [
         GetPage(name: '/home_page', page: () => const HomePage()),
-        GetPage(name: '/equipment_page', page: () => const EquipmentPage()),
         GetPage(name: '/history_page', page: () => TimeMachinePage()),
         GetPage(name: '/alerts_page', page: () =>  AlertsPage()),
         GetPage(name: '/machine_details', page: () => const EquipmentDetailPage()),
