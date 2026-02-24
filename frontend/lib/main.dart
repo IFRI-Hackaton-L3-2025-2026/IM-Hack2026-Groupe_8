@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/TimeMachinePage.dart';
 import 'package:frontend/screens/history_page.dart';
 import 'package:frontend/screens/equipment_page.dart';
 import 'package:frontend/screens/home_page.dart';
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/home_page': (context) => const HomePage(),
         '/equipment_screen': (context) => const EquipmentPage(),
-        '/history_page': (context) => const HistoryPage(),
+        '/history_page': (context) =>  TimeMachinePage(),
       },
       home: Scaffold(
         backgroundColor: const Color(0xFF0B1220),

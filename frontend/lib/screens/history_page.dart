@@ -124,60 +124,326 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 // Graphe
-  Widget _buildTelemetryChart() {
-    return Container(
-      padding: const EdgeInsets.only(top: 20, right: 25, left: 10, bottom: 10),
-      decoration: BoxDecoration(
-        color: const Color(0xFF161B22),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 40, bottom: 10),
-            child: Text(
-              "Historical Telemetry Data",
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+//   Widget _buildTelemetryChart() {
+//     return Container(
+//       padding: const EdgeInsets.only(top: 20, right: 25, left: 10, bottom: 10),
+//       decoration: BoxDecoration(
+//         color: const Color(0xFF161B22),
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const Padding(
+//             padding: EdgeInsets.only(left: 40, bottom: 10),
+//             child: Text(
+//               "Historical Telemetry Data",
+//               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+//             ),
+//           ),
+//           Expanded(
+//             child: Obx(() => LineChart(
+//               LineChartData(
+//                 minX: 0,
+//                 maxX: 24,
+//                 minY: controller.minY,
+//                 maxY: controller.maxY,
+                
+//                 // Points interactifs  (heure + vitesse + temps)
+//                 lineTouchData: LineTouchData(
+//                   enabled: true,
+//                   touchTooltipData: LineTouchTooltipData(
+//                     tooltipBgColor: const Color(0xFF1C2128),
+//                     getTooltipItems: (List<LineBarSpot> touchedSpots) {
+//                       return touchedSpots.map((spot) {
+//                         final index = spot.spotIndex;
+//                         if (index >= controller.rawDataList.length) return null;
+                        
+//                         final data = controller.rawDataList[index];
+//                         final rpm = data["rpm_mean"] ?? 0.0;
+                        
+//                         // Conversion de X (decimal) en HH:mm
+//                         int hour = spot.x.toInt();
+//                         int minute = ((spot.x - hour) * 60).toInt();
+//                         String timeStr = '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+
+//                         return LineTooltipItem(
+//                           '$timeStr\n',
+//                           const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+//                           children: [
+//                             TextSpan(
+//                               text: 'Temp: ${spot.y.toStringAsFixed(1)}°C\n',
+//                               style: const TextStyle(color: Colors.cyan, fontWeight: FontWeight.w500),
+//                             ),
+//                             TextSpan(
+//                               text: 'Vitesse: ${rpm.toStringAsFixed(0)} RPM',
+//                               style: const TextStyle(color: Colors.orangeAccent, fontWeight: FontWeight.w500),
+//                             ),
+//                           ],
+//                         );
+//                       }).toList();
+//                     },
+//                   ),
+//                 ),
+
+//                 // Graphe en papier millimétré
+//                 gridData: FlGridData(
+//                   show: true,
+//                   drawVerticalLine: true,
+//                   horizontalInterval: 5, 
+//                   verticalInterval: 1,   
+//                   getDrawingHorizontalLine: (value) => FlLine(
+//                     color: Colors.white.withOpacity(0.08),
+//                     strokeWidth: 0.5,
+//                   ),
+//                   getDrawingVerticalLine: (value) => FlLine(
+//                     color: Colors.white.withOpacity(0.08),
+//                     strokeWidth: 0.5,
+//                   ),
+//                 ),
+                
+//                 borderData: FlBorderData(
+//                   show: true,
+//                   border: Border.all(color: Colors.white10, width: 1),
+//                 ),
+
+//                 // Titres des axes
+//                 titlesData: FlTitlesData(
+//                   show: true,
+//                   rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+//                   topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+//                   leftTitles: AxisTitles(
+//                     axisNameWidget: const Text(
+//                       "Température (°C)",
+//                       style: TextStyle(color: Colors.cyan, fontSize: 11, fontWeight: FontWeight.bold),
+//                     ),
+//                     axisNameSize: 22,
+//                     sideTitles: SideTitles(
+//                       showTitles: true,
+//                       interval: 10,
+//                       reservedSize: 35,
+//                       getTitlesWidget: (value, meta) => SideTitleWidget(
+//                         axisSide: meta.axisSide,
+//                         child: Text('${value.toInt()}°', style: const TextStyle(color: Colors.grey, fontSize: 9)),
+//                       ),
+//                     ),
+//                   ),
+//                   bottomTitles: AxisTitles(
+//                     axisNameWidget: const Text(
+//                       "Heure (24h)",
+//                       style: TextStyle(color: Colors.cyan, fontSize: 11, fontWeight: FontWeight.bold),
+//                     ),
+//                     axisNameSize: 22,
+//                     sideTitles: SideTitles(
+//                       showTitles: true,
+//                       interval: 4, 
+//                       reservedSize: 30,
+//                       getTitlesWidget: (value, meta) => SideTitleWidget(
+//                         axisSide: meta.axisSide,
+//                         space: 5,
+//                         child: Text('${value.toInt()}h', style: const TextStyle(color: Colors.grey, fontSize: 9)),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+
+//                 lineBarsData: [
+//                   // LineChartBarData(
+//                   //   isCurved: true,
+//                   //   curveSmoothness: 0.25,
+//                   //   color: Colors.cyan,
+//                   //   barWidth: 2,
+//                   //   isStrokeCapRound: true,
+//                   //   dotData: const FlDotData(show: false),
+//                   //   belowBarData: BarAreaData(
+//                   //     show: true,
+//                   //     gradient: LinearGradient(
+//                   //       begin: Alignment.topCenter,
+//                   //       end: Alignment.bottomCenter,
+//                   //       colors: [
+//                   //         Colors.cyan.withOpacity(0.2),
+//                   //         Colors.cyan.withOpacity(0.0),
+//                   //       ],
+//                   //     ),
+//                   //   ),
+//                   //   spots: controller.telemetryData.toList(),
+//                   // ),
+//                   LineChartBarData(
+//   isCurved: true,
+//   curveSmoothness: 0.15, // Courbe légère
+//   color: Colors.cyan,
+//   barWidth: 1.8, // Trait fin
+//   isStrokeCapRound: true,
+//   dotData: const FlDotData(show: false), // ABSOLUMENT CACHER LES POINTS
+//   belowBarData: BarAreaData(
+//     show: true,
+//     gradient: LinearGradient(
+//       begin: Alignment.topCenter,
+//       end: Alignment.bottomCenter,
+//       colors: [
+//         Colors.cyan.withOpacity(0.2),
+//         Colors.cyan.withOpacity(0.0),
+//       ],
+//     ),
+//   ),
+//   spots: controller.telemetryData.toList(),
+// ),
+//                 ],
+//               ),
+//             )),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+Widget _buildTelemetryChart() {
+  return Container(
+    padding: const EdgeInsets.only(top: 20, right: 25, left: 10, bottom: 10),
+    decoration: BoxDecoration(
+      color: const Color(0xFF161B22),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 40, bottom: 10),
+          child: Text(
+            "Historical Telemetry Data",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          Expanded(
-            child: Obx(() => LineChart(
+        ),
+        Expanded(
+          child: Obx(() {
+            final rangeX = controller.maxX - controller.minX;
+
+            // Intervalle dynamique
+            double horizontalInterval;
+            if (rangeX <= 1) {
+              horizontalInterval = rangeX / 4;
+            } else if (rangeX <= 6) {
+              horizontalInterval = 1;
+            } else {
+              horizontalInterval = 4;
+            }
+
+            return LineChart(
               LineChartData(
-                minX: 0,
-                maxX: 24,
+                minX: controller.minX,
+                maxX: controller.maxX,
                 minY: controller.minY,
                 maxY: controller.maxY,
-                
-                // Points interactifs  (heure + vitesse + temps)
+
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: true,
+                  horizontalInterval:
+                      (controller.maxY - controller.minY) / 5,
+                  verticalInterval: horizontalInterval,
+                  getDrawingHorizontalLine: (value) => FlLine(
+                    color: Colors.white.withOpacity(0.04),
+strokeWidth: 0.4,
+                  ),
+                  getDrawingVerticalLine: (value) => FlLine(
+                    color: Colors.white.withOpacity(0.04),
+strokeWidth: 0.4,
+                  ),
+                ),
+
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: Colors.white10, width: 1),
+                ),
+
+                titlesData: FlTitlesData(
+                  rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false)),
+
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      interval:
+                          (controller.maxY - controller.minY) / 5,
+                      getTitlesWidget: (value, meta) {
+                        return SideTitleWidget(
+                          axisSide: meta.axisSide,
+                          child: Text(
+                            value.toStringAsFixed(0),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 10),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      interval: horizontalInterval,
+                      reservedSize: 30,
+                      getTitlesWidget: (value, meta) {
+                        return SideTitleWidget(
+                          axisSide: meta.axisSide,
+                          space: 6,
+                          child: Text(
+                            controller.formatHour(value),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 9),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
                 lineTouchData: LineTouchData(
                   enabled: true,
                   touchTooltipData: LineTouchTooltipData(
                     tooltipBgColor: const Color(0xFF1C2128),
-                    getTooltipItems: (List<LineBarSpot> touchedSpots) {
-                      return touchedSpots.map((spot) {
+                    getTooltipItems: (spots) {
+                      return spots.map((spot) {
                         final index = spot.spotIndex;
-                        if (index >= controller.rawDataList.length) return null;
-                        
-                        final data = controller.rawDataList[index];
+                        if (index >= controller.rawDataList.length) {
+                          return null;
+                        }
+
+                        final data =
+                            controller.rawDataList[index];
                         final rpm = data["rpm_mean"] ?? 0.0;
-                        
-                        // Conversion de X (decimal) en HH:mm
-                        int hour = spot.x.toInt();
-                        int minute = ((spot.x - hour) * 60).toInt();
-                        String timeStr = '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+
+                        int hour = spot.x.floor();
+                        int minute =
+                            ((spot.x - hour) * 60).round();
+
+                        String timeStr =
+                            "${hour.toString().padLeft(2, '0')}:"
+                            "${minute.toString().padLeft(2, '0')}";
 
                         return LineTooltipItem(
-                          '$timeStr\n',
-                          const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          "$timeStr\n",
+                          const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                           children: [
                             TextSpan(
-                              text: 'Temp: ${spot.y.toStringAsFixed(1)}°C\n',
-                              style: const TextStyle(color: Colors.cyan, fontWeight: FontWeight.w500),
+                              text:
+                                  "Temp: ${spot.y.toStringAsFixed(1)}°C\n",
+                              style: const TextStyle(
+                                  color: Colors.cyan),
                             ),
                             TextSpan(
-                              text: 'Vitesse: ${rpm.toStringAsFixed(0)} RPM',
-                              style: const TextStyle(color: Colors.orangeAccent, fontWeight: FontWeight.w500),
+                              text:
+                                  "RPM: ${rpm.toStringAsFixed(0)}",
+                              style: const TextStyle(
+                                  color: Colors.orangeAccent),
                             ),
                           ],
                         );
@@ -186,75 +452,17 @@ class _HistoryPageState extends State<HistoryPage> {
                   ),
                 ),
 
-                // Graphe en papier millimétré
-                gridData: FlGridData(
-                  show: true,
-                  drawVerticalLine: true,
-                  horizontalInterval: 5, 
-                  verticalInterval: 1,   
-                  getDrawingHorizontalLine: (value) => FlLine(
-                    color: Colors.white.withOpacity(0.08),
-                    strokeWidth: 0.5,
-                  ),
-                  getDrawingVerticalLine: (value) => FlLine(
-                    color: Colors.white.withOpacity(0.08),
-                    strokeWidth: 0.5,
-                  ),
-                ),
-                
-                borderData: FlBorderData(
-                  show: true,
-                  border: Border.all(color: Colors.white10, width: 1),
-                ),
-
-                // Titres des axes
-                titlesData: FlTitlesData(
-                  show: true,
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  leftTitles: AxisTitles(
-                    axisNameWidget: const Text(
-                      "Température (°C)",
-                      style: TextStyle(color: Colors.cyan, fontSize: 11, fontWeight: FontWeight.bold),
-                    ),
-                    axisNameSize: 22,
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      interval: 10,
-                      reservedSize: 35,
-                      getTitlesWidget: (value, meta) => SideTitleWidget(
-                        axisSide: meta.axisSide,
-                        child: Text('${value.toInt()}°', style: const TextStyle(color: Colors.grey, fontSize: 9)),
-                      ),
-                    ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    axisNameWidget: const Text(
-                      "Heure (24h)",
-                      style: TextStyle(color: Colors.cyan, fontSize: 11, fontWeight: FontWeight.bold),
-                    ),
-                    axisNameSize: 22,
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      interval: 4, 
-                      reservedSize: 30,
-                      getTitlesWidget: (value, meta) => SideTitleWidget(
-                        axisSide: meta.axisSide,
-                        space: 5,
-                        child: Text('${value.toInt()}h', style: const TextStyle(color: Colors.grey, fontSize: 9)),
-                      ),
-                    ),
-                  ),
-                ),
-
                 lineBarsData: [
                   LineChartBarData(
+                    spots:
+                        controller.telemetryData.toList(),
                     isCurved: true,
-                    curveSmoothness: 0.25,
+                    curveSmoothness: 0.35,
                     color: Colors.cyan,
-                    barWidth: 2,
+                    barWidth: 1.8,
                     isStrokeCapRound: true,
-                    dotData: const FlDotData(show: false),
+                    dotData:
+                        const FlDotData(show: false),
                     belowBarData: BarAreaData(
                       show: true,
                       gradient: LinearGradient(
@@ -262,21 +470,20 @@ class _HistoryPageState extends State<HistoryPage> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.cyan.withOpacity(0.2),
-                          Colors.cyan.withOpacity(0.0),
+                          Colors.transparent,
                         ],
                       ),
                     ),
-                    spots: controller.telemetryData.toList(),
                   ),
                 ],
               ),
-            )),
-          ),
-        ],
-      ),
-    );
-  }
-
+            );
+          }),
+        ),
+      ],
+    ),
+  );
+}
   Widget _buildInputBox(IconData icon, String value, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
