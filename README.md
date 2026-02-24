@@ -8,7 +8,7 @@
 | Nom complet | E-mail | Identifiant GitHub |
 |------------|--------|-------------------|
 | AHOHOUINDO Ursule Sènan | ursulahohouindo@gmail.com | Ursulee |
-| VIDEDANNON Iffa Symelle | videdannoniffasymelle@gmail.com | videdannonsymelle-lang |
+| VIDEDANNON Iffa Symelle | videdannoniffasymelle@gmail.com | videdannoniffasymelle-lang |
 | BANKOLE Nathan Christopher Adéyèmi | bankolechristopher91@gmail.com | Azert-ty |
 |ADJAKOTAN Oboubé Trinité Sylvio | triniteadj1@gmail.com | Sylvio41 |
 
