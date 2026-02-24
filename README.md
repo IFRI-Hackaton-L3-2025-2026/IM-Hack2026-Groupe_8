@@ -45,9 +45,10 @@ Backend : API REST en Python (Flask)
 Frontend : Application Flutter (Dart)
 
 Communication via HTTP (Dio)
----
 
 #### 1.1  Le Choix du Mobile : L'Intelligence au Cœur de l'Usine
+
+
 Dans le cadre de l'industrie 4.0, la donnée n'a de valeur que si elle est actionnable immédiatement. En développant l'appli sur support mobile, nous avons fait le choix stratégique de la mobilité opérationnelle.
 
 Contrairement à un logiciel de bureau classique, notre application transforme le smartphone du technicien en un véritable terminal de diagnostic portable. Voici pourquoi ce choix est crucial pour le succès du projet :
@@ -59,10 +60,12 @@ Ergonomie Tactile : L'interface a été pensée pour une manipulation naturelle.
 Aide à la décision en temps réel : En limitant le flux à 200 points clés, nous garantissons une fluidité parfaite, permettant de repérer une anomalie en quelques secondes, même sur les réseaux industriels parfois instables.
 
 
----
+
 ### 2. Architecture Générale
+
 #### 2.1 Backend – API REST en Python
----
+
+
 Framework utilisé : Flask
 
 Pourquoi Flask ?
@@ -85,7 +88,8 @@ Justification :
 Le serveur de développement Flask n’est pas conçu pour la production. Waitress garantit une gestion correcte des requêtes concurrentes.
 
 #### 2.2 Frontend – Application Flutter
----
+
+
 Framework : Flutter 3.x
 
 Pourquoi Flutter ?
@@ -121,7 +125,9 @@ Intercepteurs
 Support avancé HTTP
 
 ### 3. Architecture Logicielle
+
 #### 3.1 Séparation des responsabilités
+
 
 Architecture type MVC-like :
 
@@ -152,7 +158,9 @@ Testabilité
 Scalabilité
 
 ### 4. Conception du Backend
+
 #### 4.1 Simulation des machines
+
 
 28 machines réparties en 4 catégories industrielles.
 
@@ -178,7 +186,9 @@ Courant anormal → warning
 
 Seuils critiques → "en panne"
 
+
 #### 4.2 Génération des capteurs
+
 
 Capteurs simulés :
 
@@ -211,7 +221,9 @@ Maintient fluidité graphique
 
 Suffisant pour visualisation courte durée
 
+
 #### 4.3 Système de prédiction
+
 
 Champ : failure_next_24h
 
@@ -231,7 +243,9 @@ Démonstration de concept
 
 Architecture prête pour intégrer un modèle ML réel
 
+
 #### 4.4 Archives historiques
+
 
 Dataset CSV traité avec Pandas.
 
@@ -256,7 +270,9 @@ Distinction importante :
 HTTP 200 = succès requête
 
 ### 5. Conception du Frontend
+
 #### 5.1 Dashboard Principal
+
 
 Fonctionnalités :
 
@@ -278,7 +294,10 @@ combien de machines sont critiques
 
 quelles machines nécessitent action
 
+
 #### 5.2 Page Détail Machine
+
+
 
 Affiche :
 
@@ -306,7 +325,10 @@ Mise à jour automatique
 
 But : diagnostic rapide et visuel.
 
+
 #### 5.3 Time Machine (Analyse Historique)
+
+
 
 Page la plus technique.
 
@@ -346,7 +368,10 @@ Identification patterns
 
 Support décision maintenance
 
+
 #### 5.4 Module Alertes
+
+
 
 Logique :
 
@@ -366,7 +391,9 @@ Objectif :
 
 Réactivité immédiate.
 
+
 #### 6. Sécurité et Performance
+
 
 CORS activé
 
@@ -380,7 +407,9 @@ Gestion erreurs réseau via try/catch
 
 Snackbars pour feedback utilisateur
 
+
 #### 7. Expérience Utilisateur (UX)
+
 
 Thème sombre industriel :
 
@@ -410,7 +439,9 @@ Destruction pile inutile via offAllNamed()
 
 Optimisation mémoire mobile respectée.
 
+
 #### 8. Défis Techniques Résolus
+
 
 AssertionError currentIndex
 Correction logique index barre navigation.
@@ -427,6 +458,8 @@ Limitation données + adaptation dynamique axes.
 
 
 #### 10. Conclusion
+
+
 
 Le projet ne se limite pas à une interface graphique.
 
