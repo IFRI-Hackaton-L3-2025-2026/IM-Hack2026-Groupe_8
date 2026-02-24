@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       //Les chemins
       routes: {
         '/home_page': (context) => const HomePage(),
-        '/equipment_screen': (context) => const EquipmentPage(),
+        '/equipment_page': (context) => const EquipmentPage(),
         '/history_page': (context) => const HistoryPage(),
       },
       home: Scaffold(
