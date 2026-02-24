@@ -41,6 +41,26 @@ class MachineDetailsController extends GetxController {
     }
   }
 
+  // Dans ton MachineDetailsController
+// Dans MachineDetailsController
+Future<void> toggleMaintenanceOnServer(String machineId) async {
+  try {
+    // On appelle l'API réelle
+    final response = await GetConnect().post(
+      'http://10.0.2.2:5000/api/maintenance/$machineId', 
+      {},
+    );
+
+    if (response.statusCode == 200) {
+      // On force une mise à jour immédiate après l'appel
+      // pour que l'utilisateur voit le changement
+      fetchMachineDetails(machineId); 
+    }
+  } catch (e) {
+    print("Erreur maintenance: $e");
+  }
+}
+
   @override
   void onClose() {
     _timer?.cancel(); // TRÈS IMPORTANT : Arrêter le timer quand on quitte la page

@@ -43,8 +43,31 @@ machine_profiles = {
 
 history_db = {m['machine_id']: [] for m in machines_list}
 
+
+# En haut avec tes variables globales
+maintenance_list = []
+
+@app.route('/api/maintenance/<m_id>', methods=['POST'])
+def toggle_maintenance(m_id):
+    if m_id in maintenance_list:
+        maintenance_list.remove(m_id)
+        status = "active"
+    else:
+        maintenance_list.append(m_id)
+        status = "maintenance"
+    return jsonify({"status": status})
+
 # --- 3. MOTEUR DE SIMULATION HARMONISÉ ---
 def generate_sensor_data(m_id):
+    if m_id in maintenance_list:
+        return {
+            "machine_id": m_id,
+            "timestamp": time.strftime("%d/%m/%Y %H:%M"),
+            "temp_mean": 25.0,
+            "vib_mean": 0.0,
+            "status": "maintenance", # Force le statut ici
+            "failure_next_24h": 0
+        }
     m_type = next(m['machine_type'] for m in machines_list if m['machine_id'] == m_id)
     profile = machine_profiles[m_type]
 

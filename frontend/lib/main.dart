@@ -105,7 +105,7 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/EquipmentDetailPage.dart';
+import 'package:frontend/screens/MachineDetailPage.dart';
 import 'package:frontend/screens/alerts_page.dart';
 import 'package:get/get.dart'; // IMPORTANT : Import de GetX
 import 'package:frontend/screens/TimeMachinePage.dart';
