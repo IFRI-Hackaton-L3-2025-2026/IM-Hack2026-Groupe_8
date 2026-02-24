@@ -918,7 +918,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         children: [
           _globalStat(totalActive, "Operational", Colors.greenAccent),
           _globalStat(totalFault, "Down", Colors.redAccent),
-          _globalStat(totalMaintenance, "Service", Colors.blueAccent),
+          _globalStat(totalMaintenance, "Maintenance", Colors.blueAccent),
         ],
       ),
     );
