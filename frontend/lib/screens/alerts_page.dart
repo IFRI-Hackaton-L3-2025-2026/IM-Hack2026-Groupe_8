@@ -297,6 +297,163 @@
 // }
 
 
+// import 'package:flutter/material.dart';
+// import 'package:frontend/controllers/AlertsController.dart';
+// import 'package:get/get.dart';
+// import '../widgets/app_bottom_bar.dart';
+
+// class AlertsPage extends StatelessWidget {
+//   AlertsPage({super.key});
+
+//   final controller = Get.put(AlertsController());
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: const Color(0xFF0D1117),
+//       body: SafeArea(
+//         child: RefreshIndicator(
+//           onRefresh: () => controller.fetchRiskyMachines(),
+//           color: const Color(0xFF00E5FF),
+//           child: CustomScrollView(
+//             physics: const AlwaysScrollableScrollPhysics(),
+//             slivers: [
+//               // Header
+//               SliverPadding(
+//                 padding: const EdgeInsets.all(16),
+//                 sliver: SliverToBoxAdapter(child: _buildHeader()),
+//               ),
+              
+//               // Liste des alertes
+//               Obx(() {
+//                 if (controller.isLoading.value) {
+//                   return const SliverFillRemaining(
+//                     child: Center(child: CircularProgressIndicator(color: Color(0xFF00E5FF))),
+//                   );
+//                 }
+
+//                 if (controller.riskyAlerts.isEmpty) {
+//                   return const SliverFillRemaining(
+//                     child: Center(
+//                       child: Text("No critical alerts today", style: TextStyle(color: Colors.grey)),
+//                     ),
+//                   );
+//                 }
+
+//                 return SliverPadding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 16),
+//                   sliver: SliverList(
+//                     delegate: SliverChildBuilderDelegate(
+//                       (context, index) {
+//                         final machine = controller.riskyAlerts[index];
+//                         return _buildAlertCard(machine);
+//                       },
+//                       childCount: controller.riskyAlerts.length,
+//                     ),
+//                   ),
+//                 );
+//               }),
+//             ],
+//           ),
+//         ),
+//       ),
+//       bottomNavigationBar: AppBottomBar(
+//         currentIndex: 3,
+//         onTap: (index) {
+//           if (index == 0) Get.offAllNamed('/home_page');
+//           if (index == 1) Get.offNamed('/equipment_page');
+//           if (index == 2) Get.offNamed('/history_page');
+//         },
+//       ),
+//     );
+//   }
+
+//   Widget _buildHeader() {
+//     return Row(
+//       children: [
+//         const Icon(Icons.notifications_active_outlined, color: Color(0xFF00E5FF), size: 32),
+//         const SizedBox(width: 12),
+//         Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: const [
+//             Text('Alerts ', 
+//               style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)),
+            
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+
+//   Widget _buildAlertCard(Map<String, dynamic> m) {
+//     // Logique de Sévérité pour le design
+//     bool isDown = m['status'] == "en panne";
+//     bool isMaintenance = (m['maintenance_age_days'] ?? 0) > 100;
+    
+//     Color fg = isDown ? const Color(0xFFFF6B35) : (isMaintenance ? Colors.blueAccent : const Color(0xFFFFC107));
+//     Color bg = fg.withOpacity(0.1);
+//     IconData icon = isDown ? Icons.gpp_maybe : (isMaintenance ? Icons.settings : Icons.warning_amber);
+//     String label = isDown ? "CRITICAL" : (isMaintenance ? "MAINTENANCE" : "HIGH RISK");
+
+//     return Container(
+//       margin: const EdgeInsets.only(bottom: 14),
+//       padding: const EdgeInsets.all(16),
+//       decoration: BoxDecoration(
+//         color: const Color(0xFF161B22),
+//         borderRadius: BorderRadius.circular(12),
+//         border: Border.all(color: fg.withOpacity(0.3)),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Row(
+//                 children: [
+//                   CircleAvatar(radius: 14, backgroundColor: bg, child: Icon(icon, color: fg, size: 16)),
+//                   const SizedBox(width: 10),
+//                   Text(label, style: TextStyle(color: fg, fontSize: 10, fontWeight: FontWeight.bold)),
+//                 ],
+//               ),
+//               const Text("Now", style: TextStyle(color: Colors.grey, fontSize: 11)),
+//             ],
+//           ),
+//           const SizedBox(height: 12),
+//           Text(m['name'] ?? 'Unknown Robot', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+//           const SizedBox(height: 6),
+//           Text(
+//             isDown ? "Machine has stopped. Urgent repair needed." : 
+//             (isMaintenance ? "Scheduled maintenance age limit reached." : "AI predicts a failure within the next 24 hours."),
+//             style: const TextStyle(color: Colors.white70, fontSize: 13),
+//           ),
+          
+//           // AI Confidence Bar (uniquement si ce n'est pas encore en panne)
+//           if (!isDown) ...[
+//             const SizedBox(height: 14),
+//             Row(
+//               children: [
+//                 const Icon(Icons.analytics, color: Color(0xFF00E5FF), size: 14),
+//                 const SizedBox(width: 5),
+//                 const Text("AI Confidence", style: TextStyle(color: Color(0xFF00E5FF), fontSize: 11)),
+//                 const Spacer(),
+//                 Text("${(0.85 * 100).toInt()}%", style: const TextStyle(color: Colors.white, fontSize: 11)),
+//               ],
+//             ),
+//             const SizedBox(height: 6),
+//             LinearProgressIndicator(
+//               value: 0.85,
+//               backgroundColor: Colors.white10,
+//               valueColor: const AlwaysStoppedAnimation(Color(0xFF00E5FF)),
+//               minHeight: 3,
+//             ),
+//           ]
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:frontend/controllers/AlertsController.dart';
 import 'package:get/get.dart';
@@ -318,13 +475,15 @@ class AlertsPage extends StatelessWidget {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              // Header
+              // Header avec le point de notification
               SliverPadding(
                 padding: const EdgeInsets.all(16),
-                sliver: SliverToBoxAdapter(child: _buildHeader()),
+                sliver: SliverToBoxAdapter(
+                  child: Obx(() => _buildHeader(controller.riskyAlerts.isNotEmpty)),
+                ),
               ),
               
-              // Liste des alertes
+              // Liste des alertes filtrées
               Obx(() {
                 if (controller.isLoading.value) {
                   return const SliverFillRemaining(
@@ -332,10 +491,15 @@ class AlertsPage extends StatelessWidget {
                   );
                 }
 
-                if (controller.riskyAlerts.isEmpty) {
+                // --- FILTRAGE : Uniquement Failure et Maintenance provenant du serveur ---
+                final filteredList = controller.riskyAlerts.where((m) {
+                  return m['status'] == "en panne" || m['status'] == "maintenance";
+                }).toList();
+
+                if (filteredList.isEmpty) {
                   return const SliverFillRemaining(
                     child: Center(
-                      child: Text("No critical alerts today", style: TextStyle(color: Colors.grey)),
+                      child: Text("No active alerts", style: TextStyle(color: Colors.grey)),
                     ),
                   );
                 }
@@ -344,11 +508,8 @@ class AlertsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final machine = controller.riskyAlerts[index];
-                        return _buildAlertCard(machine);
-                      },
-                      childCount: controller.riskyAlerts.length,
+                      (context, index) => _buildAlertCard(filteredList[index]),
+                      childCount: filteredList.length,
                     ),
                   ),
                 );
@@ -368,32 +529,41 @@ class AlertsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  // Header avec un point rouge si des alertes existent
+  Widget _buildHeader(bool hasAlerts) {
     return Row(
       children: [
-        const Icon(Icons.notifications_active_outlined, color: Color(0xFF00E5FF), size: 32),
-        const SizedBox(width: 12),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text('Alerts ', 
-              style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)),
-            
+        Stack(
+          children: [
+            const Icon(Icons.notifications_active_outlined, color: Color(0xFF00E5FF), size: 35),
+            if (hasAlerts)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  constraints: const BoxConstraints(minWidth: 12, minHeight: 12),
+                ),
+              ),
           ],
+        ),
+        const SizedBox(width: 12),
+        const Text(
+          'Alerts', 
+          style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
   Widget _buildAlertCard(Map<String, dynamic> m) {
-    // Logique de Sévérité pour le design
-    bool isDown = m['status'] == "en panne";
-    bool isMaintenance = (m['maintenance_age_days'] ?? 0) > 100;
+    bool isFailure = m['status'] == "en panne";
     
-    Color fg = isDown ? const Color(0xFFFF6B35) : (isMaintenance ? Colors.blueAccent : const Color(0xFFFFC107));
+    Color fg = isFailure ? const Color(0xFFFF6B35) : Colors.blueAccent;
     Color bg = fg.withOpacity(0.1);
-    IconData icon = isDown ? Icons.gpp_maybe : (isMaintenance ? Icons.settings : Icons.warning_amber);
-    String label = isDown ? "CRITICAL" : (isMaintenance ? "MAINTENANCE" : "HIGH RISK");
+    IconData icon = isFailure ? Icons.report_problem : Icons.build_circle;
+    String label = isFailure ? "FAILURE" : "MAINTENANCE";
 
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
@@ -401,7 +571,7 @@ class AlertsPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF161B22),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: fg.withOpacity(0.3)),
+        border: Border.all(color: fg.withOpacity(0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,41 +583,24 @@ class AlertsPage extends StatelessWidget {
                 children: [
                   CircleAvatar(radius: 14, backgroundColor: bg, child: Icon(icon, color: fg, size: 16)),
                   const SizedBox(width: 10),
-                  Text(label, style: TextStyle(color: fg, fontSize: 10, fontWeight: FontWeight.bold)),
+                  Text(label, style: TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.bold)),
                 ],
               ),
               const Text("Now", style: TextStyle(color: Colors.grey, fontSize: 11)),
             ],
           ),
           const SizedBox(height: 12),
-          Text(m['name'] ?? 'Unknown Robot', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+          Text(
+            m['name'] ?? 'Robot Unit', 
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           const SizedBox(height: 6),
           Text(
-            isDown ? "Machine has stopped. Urgent repair needed." : 
-            (isMaintenance ? "Scheduled maintenance age limit reached." : "AI predicts a failure within the next 24 hours."),
+            isFailure 
+              ? "System has stopped due to a critical failure." 
+              : "This unit is currently under maintenance.",
             style: const TextStyle(color: Colors.white70, fontSize: 13),
           ),
-          
-          // AI Confidence Bar (uniquement si ce n'est pas encore en panne)
-          if (!isDown) ...[
-            const SizedBox(height: 14),
-            Row(
-              children: [
-                const Icon(Icons.analytics, color: Color(0xFF00E5FF), size: 14),
-                const SizedBox(width: 5),
-                const Text("AI Confidence", style: TextStyle(color: Color(0xFF00E5FF), fontSize: 11)),
-                const Spacer(),
-                Text("${(0.85 * 100).toInt()}%", style: const TextStyle(color: Colors.white, fontSize: 11)),
-              ],
-            ),
-            const SizedBox(height: 6),
-            LinearProgressIndicator(
-              value: 0.85,
-              backgroundColor: Colors.white10,
-              valueColor: const AlwaysStoppedAnimation(Color(0xFF00E5FF)),
-              minHeight: 3,
-            ),
-          ]
         ],
       ),
     );

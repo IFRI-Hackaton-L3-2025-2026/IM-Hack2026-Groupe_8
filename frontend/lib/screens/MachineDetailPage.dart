@@ -86,36 +86,44 @@ final MachineDetailsController controller = Get.put(MachineDetailsController());
         );
       }),
 
-      // --- SECTION BAS DE PAGE (Bouton Maintenance) ---
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
+     // --- SECTION BAS DE PAGE (Bouton dynamique) ---
+      bottomNavigationBar: Obx(() {
+        // On récupère le statut actuel
+        final String status = controller.machine['current']?['status'] ?? "";
+
+        // CONDITION : On n'affiche le bouton QUE si la machine est "en panne"
+        if (status == "en panne") {
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton.icon(
                   onPressed: () {
-  final machineId = controller.machine['info']['machine_id'];
-  controller.toggleMaintenanceOnServer(machineId);
-},
+                    final machineId = controller.machine['info']['machine_id'];
+                    controller.toggleMaintenanceOnServer(machineId);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orangeAccent,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                   icon: const Icon(Icons.build, color: Colors.black),
                   label: const Text(
-                    "METTRE EN  MAINTENANCE",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    "METTRE EN MAINTENANCE",
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          );
+        } else {
+          // Si la machine est "active" ou déjà en "maintenance", on retourne un widget vide
+          return const SizedBox.shrink();
+        }
+      }),
     );
   }
 

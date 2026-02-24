@@ -1,10 +1,10 @@
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../services/api_service.dart'; // Importe ton ApiService
+import '../services/api_service.dart';
+import 'package:flutter/material.dart';
+
+
 
 class MachineDetailsController extends GetxController {
   final ApiService _apiService = ApiService();
@@ -17,60 +17,70 @@ class MachineDetailsController extends GetxController {
   void onInit() {
     super.onInit();
     if (Get.arguments != null) {
+      // On initialise avec les données reçues de la page précédente
       _machine.value = Get.arguments;
-      _startLiveUpdates(); // Lance la mise à jour automatique
+      _startLiveUpdates(); 
     }
   }
 
-  // Fonction qui appelle l'API en boucle
+  // --- 1. FONCTION DE RAFRAÎCHISSEMENT (Celle qui manquait) ---
+  Future<void> fetchMachineDetails(String machineId) async {
+    try {
+      final newData = await _apiService.getMachineDetails(machineId);
+      _machine.value = newData; 
+      _machine.refresh(); // On force GetX à signaler le changement
+    } catch (e) {
+      print("Erreur lors de la récupération des détails: $e");
+    }
+  }
+
+  // --- 2. LOGIQUE DE MAINTENANCE ---
+  Future<void> toggleMaintenanceOnServer(String machineId) async {
+    try {
+      // On utilise GetConnect pour envoyer le POST au Python
+      final response = await GetConnect().post(
+        'http://10.0.2.2:5000/api/maintenance/$machineId', 
+        {},
+      );
+
+      if (response.statusCode == 200) {
+        // Une fois que le serveur a validé, on recharge les données
+        await fetchMachineDetails(machineId); 
+        
+        Get.snackbar(
+          "Succès", 
+          "Statut de maintenance mis à jour",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green.withOpacity(0.7),
+          colorText: Colors.white
+        );
+      }
+    } catch (e) {
+      print("Erreur maintenance: $e");
+      Get.snackbar("Erreur", "Impossible de contacter le serveur");
+    }
+  }
+
+  // --- 3. UPDATES AUTOMATIQUES ---
   void _startLiveUpdates() {
-    // On récupère l'ID de la machine actuelle
     String? machineId = _machine['info']?['machine_id'] ?? _machine['machine_id'];
 
     if (machineId != null) {
-      // Toutes le 3 secondes, on rafraîchit les données
       _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-        try {
-          final newData = await _apiService.getMachineDetails(machineId);
-          _machine.value = newData;
-          print("Update: ${newData['current']['temp_mean']}°C");
-        } catch (e) {
-          print("Erreur de mise à jour live: $e");
-        }
+        await fetchMachineDetails(machineId);
       });
     }
   }
 
-  // Dans ton MachineDetailsController
-// Dans MachineDetailsController
-Future<void> toggleMaintenanceOnServer(String machineId) async {
-  try {
-    // On appelle l'API réelle
-    final response = await GetConnect().post(
-      'http://10.0.2.2:5000/api/maintenance/$machineId', 
-      {},
-    );
-
-    if (response.statusCode == 200) {
-      // On force une mise à jour immédiate après l'appel
-      // pour que l'utilisateur voit le changement
-      fetchMachineDetails(machineId); 
-    }
-  } catch (e) {
-    print("Erreur maintenance: $e");
-  }
-}
-
   @override
   void onClose() {
-    _timer?.cancel(); // TRÈS IMPORTANT : Arrêter le timer quand on quitte la page
+    _timer?.cancel(); 
     super.onClose();
   }
 
-  // Ta fonction de transformation pour les graphiques
-
   List<FlSpot> getVibrationSpots() {
     final List<dynamic> history = _machine['history'] ?? [];
+    if (history.isEmpty) return [const FlSpot(0, 0)];
     return history.asMap().entries.map((e) => 
       FlSpot(e.key.toDouble(), (e.value['vib_mean'] ?? 0.0).toDouble())
     ).toList();

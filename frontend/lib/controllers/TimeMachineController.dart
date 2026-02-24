@@ -538,57 +538,55 @@ double get startTimeAsDouble => selectedTime.value.hour + (selectedTime.value.mi
       // On récupère les archives pour la date sélectionnée
       final data = await apiService.getArchives(formattedDate);
       
-      if (data is List) {
-        List<FlSpot> newSpots = [];
-        List<double> values = [];
+      List<FlSpot> newSpots = [];
+      List<double> values = [];
 
-        for (var item in data) {
-          // On ne garde que les données de la machine sélectionnée
-          if (item["machine_id"] != selectedMachineId.value) continue;
+      for (var item in data) {
+        // On ne garde que les données de la machine sélectionnée
+        if (item["machine_id"] != selectedMachineId.value) continue;
 
-          final timestamp = item["timestamp"] as String? ?? "";
-          final val = (item[selectedColumn.value] as num?)?.toDouble() ?? 0.0;
+        final timestamp = item["timestamp"] as String? ?? "";
+        final val = (item[selectedColumn.value] as num?)?.toDouble() ?? 0.0;
 
-          // Extraction de l'heure pour l'axe X (format "YYYY-MM-DD HH:mm:ss")
-          if (timestamp.contains(" ")) {
-            try {
-              final timeStr = timestamp.split(" ")[1];
-              final parts = timeStr.split(":");
-              // Conversion en double (ex: 14h30 -> 14.5) pour fl_chart
-              final x = double.parse(parts[0]) + (double.parse(parts[1]) / 60.0);
-              
-              newSpots.add(FlSpot(x, val));
-              values.add(val);
-            } catch (e) {
-              continue; // Format de date invalide
-            }
+        // Extraction de l'heure pour l'axe X (format "YYYY-MM-DD HH:mm:ss")
+        if (timestamp.contains(" ")) {
+          try {
+            final timeStr = timestamp.split(" ")[1];
+            final parts = timeStr.split(":");
+            // Conversion en double (ex: 14h30 -> 14.5) pour fl_chart
+            final x = double.parse(parts[0]) + (double.parse(parts[1]) / 60.0);
+            
+            newSpots.add(FlSpot(x, val));
+            values.add(val);
+          } catch (e) {
+            continue; // Format de date invalide
           }
-        }
-
-        // Tri et nettoyage des doublons sur l'axe X
-        newSpots.sort((a, b) => a.x.compareTo(b.x));
-        final uniqueSpots = <FlSpot>[];
-        if (newSpots.isNotEmpty) {
-          uniqueSpots.add(newSpots.first);
-          for (int i = 1; i < newSpots.length; i++) {
-            if (newSpots[i].x != newSpots[i - 1].x) uniqueSpots.add(newSpots[i]);
-          }
-        }
-
-        // Mise à jour de la liste réactive pour le graphique
-        telemetryData.assignAll(uniqueSpots);
-
-        // Calcul des statistiques
-        if (values.isNotEmpty) {
-          avg.value = double.parse((values.reduce((a, b) => a + b) / values.length).toStringAsFixed(1));
-          peak.value = double.parse(values.reduce((a, b) => a > b ? a : b).toStringAsFixed(1));
-          min.value = double.parse(values.reduce((a, b) => a < b ? a : b).toStringAsFixed(1));
-        } else {
-          // Reset si aucune donnée trouvée pour cette machine à cette date
-          avg.value = 0.0; peak.value = 0.0; min.value = 0.0;
         }
       }
-    } catch (e) {
+
+      // Tri et nettoyage des doublons sur l'axe X
+      newSpots.sort((a, b) => a.x.compareTo(b.x));
+      final uniqueSpots = <FlSpot>[];
+      if (newSpots.isNotEmpty) {
+        uniqueSpots.add(newSpots.first);
+        for (int i = 1; i < newSpots.length; i++) {
+          if (newSpots[i].x != newSpots[i - 1].x) uniqueSpots.add(newSpots[i]);
+        }
+      }
+
+      // Mise à jour de la liste réactive pour le graphique
+      telemetryData.assignAll(uniqueSpots);
+
+      // Calcul des statistiques
+      if (values.isNotEmpty) {
+        avg.value = double.parse((values.reduce((a, b) => a + b) / values.length).toStringAsFixed(1));
+        peak.value = double.parse(values.reduce((a, b) => a > b ? a : b).toStringAsFixed(1));
+        min.value = double.parse(values.reduce((a, b) => a < b ? a : b).toStringAsFixed(1));
+      } else {
+        // Reset si aucune donnée trouvée pour cette machine à cette date
+        avg.value = 0.0; peak.value = 0.0; min.value = 0.0;
+      }
+        } catch (e) {
       print("Erreur Fetch Data: $e");
       telemetryData.clear();
     } finally {
