@@ -1,4 +1,18 @@
 
+# IM-Hack2026-Groupe_8
+
+##  Membres de l’équipe et leur Identifiants github
+
+## 👥 Membres de l’équipe
+
+| Nom complet | E-mail | Identifiant GitHub |
+|------------|--------|-------------------|
+| AHOHOUINDO Ursule Sènan | ursulahohouindo@gmail.com | MiMi-art-Codeur |
+| VIDEDANNON Iffa Symelle | videdannoniffasymelle@gmail.com | videdannonsymelle-lang |
+| BANKOLE Nathan Christopher Adéyèmi | bankolechristopher91@gmail.com | Azert-ty |
+|ADJAKOTAN Oboubé Trinité Sylvio | triniteadj1@gmail.com | Sylvio41 |
+
+
 
 
 
@@ -8,7 +22,7 @@
 
 
 ## RAPPORT TECHNIQUE
-### Application de Maintenance Prédictive – IM-Hack2026-Groupe_8
+### Application de supervision industrielle
 
 #### 1. Introduction
 
@@ -31,6 +45,17 @@ Backend : API REST en Python (Flask)
 Frontend : Application Flutter (Dart)
 
 Communication via HTTP (Dio)
+
+##### 1.1  Le Choix du Mobile : L'Intelligence au Cœur de l'Usine
+Dans le cadre de l'industrie 4.0, la donnée n'a de valeur que si elle est actionnable immédiatement. En développant l'appli sur support mobile, nous avons fait le choix stratégique de la mobilité opérationnelle.
+
+Contrairement à un logiciel de bureau classique, notre application transforme le smartphone du technicien en un véritable terminal de diagnostic portable. Voici pourquoi ce choix est crucial pour le succès du projet :
+
+Réactivité sur le terrain : Le technicien n'est plus enchaîné à un poste fixe ; il accède aux graphiques de vibration ou de température directement au pied du convoyeur ou du robot.
+
+Ergonomie Tactile : L'interface a été pensée pour une manipulation naturelle. Le défilement et le zoom sur les "montagnes" de données se font d'un simple glissement de doigt, offrant une précision d'analyse impossible à obtenir avec une souris classique.
+
+Aide à la décision en temps réel : En limitant le flux à 200 points clés, nous garantissons une fluidité parfaite, permettant de repérer une anomalie en quelques secondes, même sur les réseaux industriels parfois instables.
 
 
 
@@ -835,7 +860,7 @@ Synchronisation client / serveur
 
 ---
 
-### Symelle — Pages History, Navigation et Structure Frontend
+### Symelle(videdannonsymelle-lang) — Pages History, Navigation et Structure Frontend
 
 Contributions principales
 
@@ -887,7 +912,7 @@ Des ajustements ont ensuite été effectués lors des phases d’intégration et
 
 ---
 
-### Ursule — HomePage initiale et Début Equipment
+### Ursule() — HomePage initiale et Début Equipment
 
 Ursule a :
 
@@ -905,7 +930,7 @@ Ces pages ont ensuite été modifiées et connectées au backend et au système 
 
 ---
 
-### Trinité — Page Alerts
+### Trinité(Sylvio41) — Page Alerts
 
 Trinité a :
 
@@ -940,3 +965,7 @@ Stabilisation de la version finale
 Chaque membre a contribué à des parties identifiables du projet.
 Certaines fonctionnalités ont évolué au fil des itérations, avec des phases d’implémentation initiale puis de modification ou d’amélioration technique.
 
+---
+
+# Lien drive pour la capture video simple du projet compilé sur un émulateur
+  https://drive.google.com/file/d/1YaIXIjIbXl-erhMrvQEzbYLRLERgBP1f/view?usp=drive_link
