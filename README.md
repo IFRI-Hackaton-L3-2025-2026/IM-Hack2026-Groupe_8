@@ -5,13 +5,14 @@
 
 
 
-#### Contributions de chaque membre
 
-👥 Contributions de chaque membre
+
+## 👥 Contributions de chaque membre
 
 Le projet a été réalisé en collaboration par 4 membres.
 Les contributions ci-dessous décrivent les responsabilités techniques effectivement assumées par chacun, ainsi que l’évolution du projet entre les premières implémentations et la version finale.
 
+---
 
 ### BANKOLE Christopher  (AZERT-TY) — Architecture, Backend, Intégration et Refactorisation
 
@@ -91,6 +92,8 @@ Interface utilisateur
 
 Synchronisation client / serveur
 
+---
+
 ### Symelle — Pages History, Navigation et Structure Frontend
 
 Contributions principales
@@ -141,6 +144,8 @@ Structuration des méthodes de récupération des données
 
 Des ajustements ont ensuite été effectués lors des phases d’intégration et d’optimisation.
 
+---
+
 ### Ursule — HomePage initiale et Début Equipment
 
 Ursule a :
@@ -156,6 +161,8 @@ De définir l’organisation visuelle initiale
 De structurer l’affichage de base des machines
 
 Ces pages ont ensuite été modifiées et connectées au backend et au système de monitoring lors des phases ultérieures.
+
+---
 
 ### Trinité — Page Alerts
 
@@ -188,7 +195,7 @@ Refactorisations et améliorations structurelles
 Stabilisation de la version finale
 
 ---
-
+---
 Chaque membre a contribué à des parties identifiables du projet.
 Certaines fonctionnalités ont évolué au fil des itérations, avec des phases d’implémentation initiale puis de modification ou d’amélioration technique.
 
