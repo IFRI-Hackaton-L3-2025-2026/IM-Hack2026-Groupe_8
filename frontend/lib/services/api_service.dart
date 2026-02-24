@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 class ApiService {
 
   // url
-   static const String baseUrl = "http://192.168.99.107:5000/api";
+  //  static const String baseUrl = "http://192.168.99.107:5000/api";
   // Remplace l'ancienne IP par la nouvelle détectée
   //static const String baseUrl = "http://192.168.0.100:5000/api";
-  //static const String baseUrl = "http://10.0.2.2:5000/api";
+  static const String baseUrl = "http://10.0.2.2:5000/api";
   late Dio dio;
 
   ApiService() {
@@ -64,6 +64,19 @@ class ApiService {
 }
   }
 
+// Récupérer les alertes basées sur les machines en état critique ou warning
+Future<List<dynamic>> getAlerts() async {
+  try {
+    final response = await dio.get("/machines");
+    final List<dynamic> allMachines = response.data;
+    
+    // On ne garde que les machines qui ne sont pas "active"
+    return allMachines.where((m) => m['status'] != "active").toList();
+  } catch (e) {
+    print("Erreur lors de la récupération des alertes: $e");
+    return [];
+  }
+}
 
   // Test
   Future<void> forceFailure(String id) async {
