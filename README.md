@@ -26,38 +26,38 @@
 
 ### 1. Introduction
 
-Le projet consiste en une application de supervision industrielle et de maintenance prédictive permettant :
+    Le projet consiste en une application de supervision industrielle et de maintenance prédictive permettant :
 
-la surveillance temps réel des machines,
+    la surveillance temps réel des machines,
 
-la détection d’états anormaux,
+    la détection d’états anormaux,
 
-la simulation de pannes,
+    la simulation de pannes,
 
-l’analyse historique des données,
+    l’analyse historique des données,
 
-la génération d’alertes visuelles.
+    la génération d’alertes visuelles.
 
-L’architecture repose sur une séparation claire :
+    L’architecture repose sur une séparation claire :
 
-Backend : API REST en Python (Flask)
+    Backend : API REST en Python (Flask)
 
-Frontend : Application Flutter (Dart)
+    Frontend : Application Flutter (Dart)
 
-Communication via HTTP (Dio)
+    Communication via HTTP (Dio)
 
 #### 1.1  Le Choix du Mobile : L'Intelligence au Cœur de l'Usine
 
 
-Dans le cadre de l'industrie 4.0, la donnée n'a de valeur que si elle est actionnable immédiatement. En développant l'appli sur support mobile, nous avons fait le choix stratégique de la mobilité opérationnelle.
+    Dans le cadre de l'industrie 4.0, la donnée n'a de valeur que si elle est actionnable immédiatement. En développant l'appli sur support mobile, nous avons fait le choix stratégique de la mobilité opérationnelle.
 
-Contrairement à un logiciel de bureau classique, notre application transforme le smartphone du technicien en un véritable terminal de diagnostic portable. Voici pourquoi ce choix est crucial pour le succès du projet :
+    Contrairement à un logiciel de bureau classique, notre application transforme le smartphone du technicien en un véritable terminal de diagnostic portable. Voici pourquoi ce choix est crucial pour le succès du projet :
 
-Réactivité sur le terrain : Le technicien n'est plus enchaîné à un poste fixe ; il accède aux graphiques de vibration ou de température directement au pied du convoyeur ou du robot.
+    Réactivité sur le terrain : Le technicien n'est plus enchaîné à un poste fixe ; il accède aux graphiques de vibration ou de température directement au pied du convoyeur ou du robot.
 
-Ergonomie Tactile : L'interface a été pensée pour une manipulation naturelle. Le défilement et le zoom sur les "montagnes" de données se font d'un simple glissement de doigt, offrant une précision d'analyse impossible à obtenir avec une souris classique.
+    Ergonomie Tactile : L'interface a été pensée pour une manipulation naturelle. Le défilement et le zoom sur les "montagnes" de données se font d'un simple glissement de doigt, offrant une précision d'analyse impossible à obtenir avec une souris classique.
 
-Aide à la décision en temps réel : En limitant le flux à 200 points clés, nous garantissons une fluidité parfaite, permettant de repérer une anomalie en quelques secondes, même sur les réseaux industriels parfois instables.
+    Aide à la décision en temps réel : En limitant le flux à 200 points clés, nous garantissons une fluidité parfaite, permettant de repérer une anomalie en quelques secondes, même sur les réseaux industriels parfois instables.
 
 
 
@@ -66,125 +66,125 @@ Aide à la décision en temps réel : En limitant le flux à 200 points clés, n
 #### 2.1 Backend – API REST en Python
 
 
-Framework utilisé : Flask
+    Framework utilisé : Flask
 
-Pourquoi Flask ?
+    Pourquoi Flask ?
 
-Léger
+    Léger
 
-Rapide à mettre en place
+    Rapide à mettre en place
 
-Adapté au prototypage
+    Adapté au prototypage
 
-Parfait pour exposer une API REST claire
+    Parfait pour exposer une API REST claire
 
-Serveur de production
+    Serveur de production
 
-Utilisation de Waitress comme serveur WSGI
+    Utilisation de Waitress comme serveur WSGI
 
-Remplacement du mode debug Flask
+    Remplacement du mode debug Flask
 
-Justification :
-Le serveur de développement Flask n’est pas conçu pour la production. Waitress garantit une gestion correcte des requêtes concurrentes.
+    Justification :
+    Le serveur de développement Flask n’est pas conçu pour la production. Waitress garantit une gestion correcte des requêtes concurrentes.
 
 #### 2.2 Frontend – Application Flutter
 
 
-Framework : Flutter 3.x
+    Framework : Flutter 3.x
 
-Pourquoi Flutter ?
+    Pourquoi Flutter ?
 
-Multiplateforme (Android, iOS, Web)
+    Multiplateforme (Android, iOS, Web)
 
-Performance native
+    Performance native
 
-UI fluide
+    UI fluide
 
-Idéal pour visualisation temps réel
+    Idéal pour visualisation temps réel
 
-Gestion d’état : GetX
+    Gestion d’état : GetX
 
-Justification :
+    Justification :
 
-Réactivité simple (.obs)
+    Réactivité simple (.obs)
 
-Injection de dépendances
+    Injection de dépendances
 
-Navigation simplifiée
+    Navigation simplifiée
 
-Moins de boilerplate que Provider ou BLoC
+    Moins de boilerplate que Provider ou BLoC
 
-Communication réseau : Dio
+    Communication réseau : Dio
 
-Pourquoi Dio ?
+    Pourquoi Dio ?
 
-Gestion propre des erreurs
+    Gestion propre des erreurs
 
-Intercepteurs
+    Intercepteurs
 
-Support avancé HTTP
+    Support avancé HTTP
 
 ### 3. Architecture Logicielle
 
 #### 3.1 Séparation des responsabilités
 
 
-Architecture type MVC-like :
+    Architecture type MVC-like :
 
-Backend
+    Backend
 
-Modèles implicites : machines, profils, historique
+    Modèles implicites : machines, profils, historique
 
-Logique métier : simulation, calculs seuils, prédiction
+    Logique métier : simulation, calculs seuils, prédiction
 
-Routes API : exposition des données
+    Routes API : exposition des données
 
-Frontend
+    Frontend
 
-Models : Machine, TelemetryEvent
+    Models : Machine, TelemetryEvent
 
-Controllers : logique métier (GetX)
+    Controllers : logique métier (GetX)
 
-Views : écrans
+    Views : écrans
 
-Services : ApiService
+    Services : ApiService
 
-Cette séparation permet :
+    Cette séparation permet :
 
-Maintenabilité
+    Maintenabilité
 
-Testabilité
+    Testabilité
 
-Scalabilité
+    Scalabilité
 
 ### 4. Conception du Backend
 
 #### 4.1 Simulation des machines
 
 
-28 machines réparties en 4 catégories industrielles.
+    28 machines réparties en 4 catégories industrielles.
 
-Chaque type possède un profil :
+    Chaque type possède un profil :
 
-température de base
+    - température de base
 
-facteur de vibration
+    - facteur de vibration
 
-consommation électrique
+    - consommation électrique
 
-comportement dynamique
+    - comportement dynamique
 
-Les données ne sont pas aléatoires pures.
+    Les données ne sont pas aléatoires pures.
 
-Il existe une logique physique simplifiée :
+    Il existe une logique physique simplifiée :
 
-Température élevée → vibration augmente
+    Température élevée → vibration augmente
 
-Vibration élevée → risque de panne
+    Vibration élevée → risque de panne
 
-Courant anormal → warning
+    Courant anormal → warning
 
-Seuils critiques → "en panne"
+    Seuils critiques → "en panne"
 
 
 #### 4.2 Génération des capteurs
@@ -192,138 +192,138 @@ Seuils critiques → "en panne"
 
 Capteurs simulés :
 
-temp_mean
+- temp_mean
 
-temp_max
+- temp_max
 
-vib_mean
+- vib_mean
 
-current_mean
+- current_mean
 
-acoustic_energy
+- acoustic_energy
 
-rpm_mean
+- rpm_mean
 
-oil_particle_count
+- oil_particle_count
 
-maintenance_age_days
+- maintenance_age_days
 
 Chaque appel API régénère des données dynamiques.
 
-Historique conservé :
-20 derniers points par machine.
+- Historique conservé :
+    20 derniers points par machine.
 
-Pourquoi 20 ?
+    Pourquoi 20 ?
 
-Évite surcharge mémoire
+    Évite surcharge mémoire
 
-Maintient fluidité graphique
+    Maintient fluidité graphique
 
-Suffisant pour visualisation courte durée
+    Suffisant pour visualisation courte durée
 
 
 #### 4.3 Système de prédiction
 
 
-Champ : failure_next_24h
+    Champ : failure_next_24h
 
-Logique basée sur seuils :
+    Logique basée sur seuils :
 
-temp > 85°C
+    temp > 85°C
 
-vib > 10
+    vib > 10
 
-courant anormal
+    courant anormal
 
-Ce n’est pas une IA entraînée, mais :
+    Ce n’est pas une IA entraînée, mais :
 
-Simulation cohérente
+    Simulation cohérente
 
-Démonstration de concept
+    Démonstration de concept
 
-Architecture prête pour intégrer un modèle ML réel
+    Architecture prête pour intégrer un modèle ML réel
 
 
 #### 4.4 Archives historiques
 
 
-Dataset CSV traité avec Pandas.
+    Dataset CSV traité avec Pandas.
 
-Route : /api/archive
+    Route : /api/archive
 
-Filtrage par date.
+    Filtrage par date.
 
-Limitation à 200 lignes :
+    Limitation à 200 lignes :
 
-Justification technique :
+    Justification technique :
 
-Optimisation mémoire
+    Optimisation mémoire
 
-Réduction bande passante
+    Réduction bande passante
 
-Fluidité Flutter
+    Fluidité Flutter
 
-Distinction importante :
+    Distinction importante :
 
-200 (Pandas head) = limite données
+    200 (Pandas head) = limite données
 
-HTTP 200 = succès requête
+    HTTP 200 = succès requête
 
 ### 5. Conception du Frontend
 
 #### 5.1 Dashboard Principal
 
 
-Fonctionnalités :
+    Fonctionnalités :
 
-Liste machines
+    Liste machines
 
-Statuts temps réel
+    Statuts temps réel
 
-Filtres : All / Active / Warning / Fault
+    Filtres : All / Active / Warning / Fault
 
-Compteurs globaux
+    Compteurs globaux
 
-Refresh automatique toutes les 5 secondes
+    Refresh automatique toutes les 5 secondes
 
-Objectif UX :
+    Objectif UX :
 
-Permettre à un opérateur de voir immédiatement :
+    Permettre à un opérateur de voir immédiatement :
 
-combien de machines sont critiques
+    combien de machines sont critiques
 
-quelles machines nécessitent action
+    quelles machines nécessitent action
 
 
 #### 5.2 Page Détail Machine
 
 
 
-Affiche :
+    Affiche :
 
-Jauges radiales (Syncfusion)
+    Jauges radiales (Syncfusion)
 
-Graphiques linéaires (fl_chart)
+    Graphiques linéaires (fl_chart)
 
-Statut dynamique
+    Statut dynamique
 
-Bouton toggle maintenance
+    Bouton toggle maintenance
 
-Les jauges :
+    Les jauges :
 
-Température
+    Température
 
-Vibrations
+    Vibrations
 
-Courant
+    Courant
 
-Les graphiques :
+    Les graphiques :
 
-20 derniers points
+    20 derniers points
 
-Mise à jour automatique
+    Mise à jour automatique
 
-But : diagnostic rapide et visuel.
+    But : diagnostic rapide et visuel.
 
 
 #### 5.3 Time Machine (Analyse Historique)
@@ -373,119 +373,116 @@ Support décision maintenance
 
 
 
-Logique :
+    Logique :
 
-Filtrage automatique machines en panne
+    Filtrage automatique machines en panne
 
-Classification : critical / warning / info
+    Classification : critical / warning / info
 
-Tri par gravité et temps
+    Tri par gravité et temps
 
-Animation visuelle :
+    Animation visuelle :
 
-Icône pulsante via AnimationController
+    Icône pulsante via AnimationController
 
-Mise à jour globale grâce au state partagé
+    Mise à jour globale grâce au state partagé
 
-Objectif :
+    Objectif :
 
-Réactivité immédiate.
+    Réactivité immédiate.
 
 
 #### 6. Sécurité et Performance
 
 
-CORS activé
+    CORS activé
 
-Limitation historique 20 points
+    Limitation historique 20 points
 
-Limitation CSV à 200 lignes
+    Limitation CSV à 200 lignes
 
-Timers contrôlés
+    Timers contrôlés
 
-Gestion erreurs réseau via try/catch
+    Gestion erreurs réseau via try/catch
 
-Snackbars pour feedback utilisateur
+    Snackbars pour feedback utilisateur
 
 
 #### 7. Expérience Utilisateur (UX)
 
 
-Thème sombre industriel :
+    Thème sombre industriel :
 
-Fond noir/gris profond
+    Fond noir/gris profond
 
-Accent cyan
+    Accent cyan
 
-Rouge pour critique
+    Rouge pour critique
 
-Orange pour warning
+    Orange pour warning
 
-Pourquoi sombre ?
+    Pourquoi sombre ?
 
-Environnement industriel
+    Environnement industriel
 
-Réduction fatigue oculaire
+    Réduction fatigue oculaire
 
-Meilleure visibilité alertes
+    Meilleure visibilité alertes
 
-Navigation :
+    Navigation :
 
-BottomNavigationBar
+    BottomNavigationBar
 
-Routes nommées GetX
+    Routes nommées GetX
 
-Destruction pile inutile via offAllNamed()
+    Destruction pile inutile via offAllNamed()
 
-Optimisation mémoire mobile respectée.
+    Optimisation mémoire mobile respectée.
 
 
 #### 8. Défis Techniques Résolus
 
 
-AssertionError currentIndex
-Correction logique index barre navigation.
-
-Synchronisation temps réel
+- Synchronisation temps réel
 Utilisation Timer contrôlé + Rx.
 
-Simulation réaliste
+- Simulation réaliste
 Passage d’aléatoire brut à modèle pseudo-physique.
 
-Performance graphique
+-Performance graphique
 Limitation données + adaptation dynamique axes.
 
 
 
-#### 10. Conclusion
+#### 9. Conclusion
 
 
 
 Le projet ne se limite pas à une interface graphique.
 
-Il propose :
+    Il propose :
 
-Une architecture modulaire
+    Une architecture modulaire
 
-Une simulation cohérente
+    Une simulation cohérente
 
-Une séparation propre backend/frontend
+    Une séparation propre backend/frontend
 
-Une gestion d’état robuste
+    Une gestion d’état robuste
 
-Une base extensible vers l’IA réelle
+    Une base extensible vers l’IA réelle
 
-Les choix techniques privilégient :
+    Les choix techniques privilégient :
 
-Rapidité de prototypage
+    Rapidité de prototypage
 
-Clarté architecturale
+    Clarté architecturale
 
-Performance mobile
+    Performance mobile
 
-Évolutivité
+    Évolutivité
 
-Ce système constitue un prototype fonctionnel solide de maintenance prédictive industrielle.
+    Ce système constitue un prototype fonctionnel solide de maintenance prédictive industrielle.
 
 ---
 ---
