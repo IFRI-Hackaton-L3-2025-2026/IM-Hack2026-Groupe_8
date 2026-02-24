@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+// Widget a utilisé dans toute les pages pour la bottom bar
+
 // import 'package:flutter/material.dart';
 
 // class AppBottomBar extends StatelessWidget {

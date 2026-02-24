@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 // Plus besoin d'importer 'http' ou 'json', Dio gère tout !
-
+// API
 class ApiService {
   static const String baseUrl = "http://10.0.2.2:5000/api";
+  //static const String baseUrl ="http://10.0.2.2:5000/api";
   late Dio dio;
 
   ApiService() {
