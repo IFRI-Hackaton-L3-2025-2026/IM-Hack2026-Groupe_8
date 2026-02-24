@@ -3,6 +3,7 @@ import random
 import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from urllib.parse import unquote
 
 app = Flask(__name__)
 CORS(app)
@@ -113,26 +114,36 @@ def get_all_machines():
         results.append({**m, **dynamic})
     return jsonify(results)
 
-from urllib.parse import unquote
+
 
 @app.route('/api/archive', methods=['GET'])
 def get_archives():
     if df_archive is None:
         return jsonify({"error": "Fichier CSV non trouvé"}), 500
-    
-    # Récupérer et décoder la date (transforme %2F en /)
-    raw_date = request.args.get('date')
-    target_date = unquote(raw_date) if raw_date else None
-    
-    if not target_date:
-        return jsonify({"error": "Veuillez préciser une date (JJ/MM/AAAA)"}), 400
 
-    mask = df_archive['timestamp'].str.contains(target_date, na=False)
-    filtered_df = df_archive[mask]
-    data = filtered_df.replace({np.nan: None}).to_dict(orient='records')
-    print(f"DEBUG: Date reçue: {raw_date} | Date décodée: {target_date} | Lignes: {len(filtered_df)}")
+    raw_date = request.args.get('date')
+
+    if not raw_date:
+        return jsonify({"error": "Veuillez préciser une date"}), 400
+
+    try:
+        target_date = unquote(raw_date)
+
+        mask = df_archive['timestamp'].astype(str).str.contains(target_date, na=False)
+        filtered_df = df_archive[mask]
+        filtered_df = filtered_df.head(200)
+        data = filtered_df.where(pd.notnull(filtered_df), None).to_dict(orient='records')
+
+        print(f"DEBUG: Date: {target_date} | Trouvé: {len(data)} lignes")
+
+        return jsonify(data)   # <- RETOUR CLAIR
+
+    except Exception as e:
+        print(f"ERREUR CRITIQUE: {e}")
+        return jsonify({"error": str(e)}), 500
     
-    return jsonify(data)
+
+
 
 @app.route('/api/machines/<m_id>', methods=['GET'])
 def get_one_machine(m_id):
@@ -158,5 +169,10 @@ def force_failure(m_id):
         return jsonify({"message": f"Alerte envoyée pour {m_id}"})
     return jsonify({"error": "ID inconnu"}), 404
 
+# if __name__ == '__main__':
+#     app.run(debug=True,host='0.0.0.0', port=5000)
+
+from waitress import serve
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    serve(app, host='0.0.0.0', port=5000)
