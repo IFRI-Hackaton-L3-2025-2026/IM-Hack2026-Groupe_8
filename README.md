@@ -45,6 +45,7 @@ Backend : API REST en Python (Flask)
 Frontend : Application Flutter (Dart)
 
 Communication via HTTP (Dio)
+---
 
 #### 1.1  Le Choix du Mobile : L'Intelligence au Cœur de l'Usine
 Dans le cadre de l'industrie 4.0, la donnée n'a de valeur que si elle est actionnable immédiatement. En développant l'appli sur support mobile, nous avons fait le choix stratégique de la mobilité opérationnelle.
@@ -58,10 +59,10 @@ Ergonomie Tactile : L'interface a été pensée pour une manipulation naturelle.
 Aide à la décision en temps réel : En limitant le flux à 200 points clés, nous garantissons une fluidité parfaite, permettant de repérer une anomalie en quelques secondes, même sur les réseaux industriels parfois instables.
 
 
-
+---
 ### 2. Architecture Générale
 #### 2.1 Backend – API REST en Python
-
+---
 Framework utilisé : Flask
 
 Pourquoi Flask ?
@@ -84,7 +85,7 @@ Justification :
 Le serveur de développement Flask n’est pas conçu pour la production. Waitress garantit une gestion correcte des requêtes concurrentes.
 
 #### 2.2 Frontend – Application Flutter
-
+---
 Framework : Flutter 3.x
 
 Pourquoi Flutter ?
