@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/home_page': (context) => const HomePage(),
         '/equipment_screen': (context) => const EquipmentPage(),
-        '/history_page': (context) =>  TimeMachinePage(),
+        '/history_page': (context) => const HistoryPage(),
       },
       home: Scaffold(
         backgroundColor: const Color(0xFF0B1220),
