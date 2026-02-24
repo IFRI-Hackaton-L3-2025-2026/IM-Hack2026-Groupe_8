@@ -3,9 +3,9 @@ import 'package:dio/dio.dart';
 class ApiService {
 
   // url
-  // static const String baseUrl = "http://192.168.99.107:5000";
+   static const String baseUrl = "http://192.168.99.107:5000/api";
   // Remplace l'ancienne IP par la nouvelle détectée
-  static const String baseUrl = "http://192.168.0.100:5000/api";
+  //static const String baseUrl = "http://192.168.0.100:5000/api";
   late Dio dio;
 
   ApiService() {
