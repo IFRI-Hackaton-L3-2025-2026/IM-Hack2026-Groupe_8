@@ -115,6 +115,17 @@ def get_all_machines():
     return jsonify(results)
 
 
+@app.route('/api/available_machines', methods=['GET'])
+def get_available_machines():
+    if df_archive is None:
+        return jsonify([]), 200 # Retourne liste vide mais valide si pas de data
+    
+    try:
+        # On prend TOUTES les machines du dataset entier
+        machines = sorted(df_archive['machine_id'].dropna().unique().tolist())
+        return jsonify(machines)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/archive', methods=['GET'])
 def get_archives():

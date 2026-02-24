@@ -105,6 +105,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/EquipmentDetailPage.dart';
 import 'package:frontend/screens/alerts_page.dart';
 import 'package:get/get.dart'; // IMPORTANT : Import de GetX
 import 'package:frontend/screens/TimeMachinePage.dart';
@@ -142,7 +143,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/home_page', page: () => const HomePage()),
         GetPage(name: '/equipment_page', page: () => const EquipmentPage()),
         GetPage(name: '/history_page', page: () => TimeMachinePage()),
-        GetPage(name: '/alerts_page', page: () => const AlertsPage()),
+        GetPage(name: '/alerts_page', page: () =>  AlertsPage()),
+        GetPage(name: '/machine_details', page: () => const EquipmentDetailPage()),
         // Ajoute ici tes autres pages si nécessaire
       ],
       

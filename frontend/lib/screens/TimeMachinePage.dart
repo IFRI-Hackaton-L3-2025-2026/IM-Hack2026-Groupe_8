@@ -1077,15 +1077,18 @@ class TimeMachinePage extends StatelessWidget {
   final controller = Get.put(TimeMachineController());
   final int _currentIndex = 2;
 
+   TimeMachinePage({super.key});
+
   void _onBottomTap(int index) {
     if (index == _currentIndex) return;
     switch (index) {
       case 0: Get.offAllNamed('/home_page'); break;
       case 1: Get.offNamed('/equipment_page'); break;
       case 2: break;
-      case 3: Get.offNamed('/alerts'); break;
+      case 3: Get.offNamed('/alerts_page'); break;
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -1188,76 +1191,145 @@ class TimeMachinePage extends StatelessWidget {
     ));
   }
 
-  // --- LOGIQUE DU GRAPHIQUE ---
-  LineChartData _mainChartData() {
-    if (controller.telemetryData.isEmpty) {
-      return LineChartData(
-        minX: 0, maxX: 1, minY: 0, maxY: 1, 
-        titlesData: const FlTitlesData(show: false),
-        gridData: const FlGridData(show: false),
-      );
-    }
-
+LineChartData _mainChartData() {
+  // 1. Cas où il n'y a pas de données
+  if (controller.telemetryData.isEmpty) {
     return LineChartData(
-      minX: controller.telemetryData.first.x,
-      maxX: controller.telemetryData.last.x,
-      minY: controller.min.value * 0.9,
-      maxY: controller.peak.value * 1.1,
-      gridData: FlGridData(
-        show: true,
-        getDrawingHorizontalLine: (v) => FlLine(color: Colors.white10, strokeWidth: 1),
-        getDrawingVerticalLine: (v) => FlLine(color: Colors.white10, strokeWidth: 1),
-      ),
-      titlesData: FlTitlesData(
-        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 40,
-            getTitlesWidget: (val, meta) => Text(val.toStringAsFixed(1), 
-              style: const TextStyle(color: Colors.grey, fontSize: 10)),
-          ),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            interval: 0.25, // Un label toutes les 15 minutes
-            getTitlesWidget: (val, meta) {
-              int h = val.toInt();
-              int m = ((val - h) * 60).round();
-              if (m >= 60) { h++; m = 0; }
-              return Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text("${h.toString().padLeft(2,'0')}:${m.toString().padLeft(2,'0')}", 
-                  style: const TextStyle(color: Colors.cyanAccent, fontSize: 10, fontWeight: FontWeight.bold)),
-              );
-            },
-          ),
-        ),
-      ),
-      lineBarsData: [
-        LineChartBarData(
-          spots: controller.telemetryData.toList(),
-          isCurved: true,
-          curveSmoothness: 0.15,
-          preventCurveOverShooting: true,
-          color: Colors.cyanAccent,
-          barWidth: 3,
-          dotData: const FlDotData(show: false),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [Colors.cyanAccent.withOpacity(0.3), Colors.transparent],
-              begin: Alignment.topCenter, end: Alignment.bottomCenter,
-            ),
-          ),
-        ),
-      ],
+      minX: 0, maxX: 1, minY: 0, maxY: 1,
+      titlesData: const FlTitlesData(show: false),
+      gridData: const FlGridData(show: false),
     );
   }
 
+  // 2. Synchronisation avec l'heure sélectionnée (ex: 14:45)
+  // On récupère l'heure du sélecteur convertie en double
+  double minX = controller.startTimeAsDouble;
+  
+  // Fenêtre de vue très serrée : on affiche seulement les 30 prochaines minutes
+  // (0.5 heure = 30 min). Augmente à +1.0 si tu veux voir 1 heure.
+  double maxX = minX + 0.5; 
+
+  // 3. Ajustement automatique de l'axe vertical pour éviter les chevauchements
+  double chartMinY = (controller.min.value - 2).floorToDouble();
+  double chartMaxY = (controller.peak.value + 2).ceilToDouble();
+
+  return LineChartData(
+    minX: minX,
+    maxX: maxX,
+    minY: chartMinY,
+    maxY: chartMaxY,
+    
+    // Grille ultra-précise (une ligne toutes les 5 minutes)
+    gridData: FlGridData(
+      show: true,
+      drawVerticalLine: true,
+      horizontalInterval: 5,
+      verticalInterval: 0.083, // 5 / 60 = 0.083 (une ligne toutes les 5 min)
+      getDrawingHorizontalLine: (v) => FlLine(color: Colors.white10, strokeWidth: 1),
+      getDrawingVerticalLine: (v) => FlLine(color: Colors.white.withOpacity(0.05), strokeWidth: 0.5),
+    ),
+
+    titlesData: FlTitlesData(
+      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      
+      // Axe Vertical : Valeurs espacées de 5 en 5 pour éviter les collisions
+      leftTitles: AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 40,
+          interval: 5, 
+          getTitlesWidget: (val, meta) => Text(
+            val.toStringAsFixed(0),
+            style: const TextStyle(color: Colors.grey, fontSize: 10),
+          ),
+        ),
+      ),
+
+      // Axe Horizontal : Rapproché et synchronisé sur ton heure
+      bottomTitles: AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 30,
+          // Un label toutes les 5 minutes pour un rendu très dense
+          interval: 0.083, 
+          getTitlesWidget: (val, meta) {
+            // Sécurité : on n'affiche rien en dehors de la zone choisie
+            if (val < minX - 0.01 || val > maxX + 0.01) return const SizedBox();
+
+            int h = val.toInt();
+            int m = ((val - h) * 60).round();
+            if (m >= 60) { h++; m = 0; }
+            if (h >= 24) h = 0;
+
+            return SideTitleWidget(
+              axisSide: meta.axisSide,
+              space: 8.0,
+              child: Text(
+                "${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}",
+                style: const TextStyle(
+                  color: Colors.cyanAccent, 
+                  fontSize: 8, 
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    ),
+
+    lineBarsData: [
+      LineChartBarData(
+        spots: controller.telemetryData.toList(),
+        isCurved: true,
+        curveSmoothness: 0.1,
+        color: Colors.cyanAccent,
+        barWidth: 3,
+        isStrokeCapRound: true,
+        // Affichage des points de données pour bien marquer chaque minute
+        dotData: FlDotData(
+          show: true,
+          getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+            radius: 3,
+            color: Colors.cyanAccent,
+            strokeWidth: 1,
+            strokeColor: Colors.black,
+          ),
+        ),
+        belowBarData: BarAreaData(
+          show: true,
+          gradient: LinearGradient(
+            colors: [Colors.cyanAccent.withOpacity(0.2), Colors.transparent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
+    ],
+
+    // Tooltip pour voir la valeur exacte au toucher
+    lineTouchData: LineTouchData(
+      touchTooltipData: LineTouchTooltipData(
+        tooltipBgColor: const Color(0xFF1C2128),
+        getTooltipItems: (spots) => spots.map((s) => LineTooltipItem(
+          s.y.toStringAsFixed(1),
+          const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold),
+        )).toList(),
+      ),
+    ),
+  );
+}
+
+// Fonction utilitaire pour des points plus discrets
+FlDotPainter _getDotPainter(FlSpot spot, double xPercentage, LineChartBarData bar, int index) {
+  return FlDotCirclePainter(
+    radius: 2,
+    color: Colors.cyanAccent,
+    strokeWidth: 1,
+    strokeColor: Colors.black,
+  );
+}
   // --- AUTRES COMPOSANTS UI ---
 
   Widget _buildSensorDropdown() {
