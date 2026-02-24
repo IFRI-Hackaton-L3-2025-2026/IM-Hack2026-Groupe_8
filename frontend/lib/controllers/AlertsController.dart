@@ -12,31 +12,26 @@ class AlertsController extends GetxController {
     fetchRiskyMachines();
   }
 
-  Future<void> fetchRiskyMachines() async {
-    try {
-      isLoading(true);
-      // Utilise getMachines() ou getAlerts() selon ce qui renvoie le statut à jour
-      final List<dynamic> data = await api.getMachines(); 
-      
-      // FILTRAGE CORRIGÉ
-      riskyAlerts.value = data.where((m) {
-        // 1. La machine est en panne
-        bool isDown = m['status'] == "en panne";
-        
-        // 2. La machine est officiellement en maintenance (via ton API)
-        bool isMaintenance = m['status'] == "maintenance";
-        
-        // 3. (Optionnel) L'IA prédit une panne (si tu veux garder l'alerte prédictive)
-        bool isRisky = m['failure_next_24h'] == 1;
-        
-        return isDown || isMaintenance || isRisky;
-      }).map((e) => e as Map<String, dynamic>)
-        .toList();
+ // Dans AlertsController.dart
 
-    } catch (e) {
-      print("Erreur lors de la récupération : $e");
-    } finally {
-      isLoading(false);
+Future<void> fetchRiskyMachines() async {
+  try {
+    isLoading(true);
+    // Utilise directement getAlerts() qui filtre déjà les machines non-actives
+    final List<dynamic> data = await api.getAlerts(); 
+    
+    print("Données reçues de l'API: ${data.length} machines détectées");
+
+    // Filtrage ultra-large pour attraper toutes les anomalies de ton Python
+    riskyAlerts.value = data.map((e) => e as Map<String, dynamic>).toList();
+
+    if (riskyAlerts.isEmpty) {
+      print("INFO: Aucune machine n'est en panne ou en warning actuellement.");
     }
+  } catch (e) {
+    print("ERREUR AlertsController: $e");
+  } finally {
+    isLoading(false);
   }
+}
 }
