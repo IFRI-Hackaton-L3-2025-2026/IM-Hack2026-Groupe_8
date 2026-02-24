@@ -968,4 +968,4 @@ Certaines fonctionnalités ont évolué au fil des itérations, avec des phases 
 ---
 
 # Lien drive pour la capture video simple du projet compilé sur un émulateur
-  https://drive.google.com/file/d/1YaIXIjIbXl-erhMrvQEzbYLRLERgBP1f/view?usp=drive_link
+  <!-- met le lien ver le drive ici et supprime le commentaire, -->
