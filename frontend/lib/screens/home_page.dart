@@ -88,7 +88,8 @@ class _HomePageState extends State<HomePage> {
         if (m['status'] == "en panne") fault++;
         if (m['status'] == "warning") maintenance++;
       }
-
+      // 🛡️ ON VÉRIFIE SI LE WIDGET EST TOUJOURS LÀ
+      if (!mounted) return;
       setState(() {
         machines = data;
         totalActive = active;
@@ -97,10 +98,15 @@ class _HomePageState extends State<HomePage> {
         lastUpdated = DateTime.now();
         isLoading = false;
       });
-
+      // 🛡️ AUSSI ICI POUR LE CATCH
+    
     } catch (e) {
       debugPrint("Erreur API: $e");
-      setState(() => isLoading = false);
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+
+      // setState(() => isLoading = false);
     }
 
     isFetching = false;
