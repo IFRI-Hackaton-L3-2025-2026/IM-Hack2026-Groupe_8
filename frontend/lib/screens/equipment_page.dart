@@ -41,9 +41,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
 
   Timer? refreshTimer;
 
-  // ===============================
+  
   // LOAD MACHINES FROM BACKEND
-  // ===============================
+  
   Future<void> loadMachines() async {
     try {
       final data = await apiService.getMachines();
@@ -61,9 +61,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
     }
   }
 
-  // ===============================
+  
   // AUTO REFRESH (5s)
-  // ===============================
+  
   void startAutoRefresh() {
     refreshTimer = Timer.periodic(
       const Duration(seconds: 5),
@@ -85,9 +85,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
     super.dispose();
   }
 
-  // ===============================
+  
   // STATUS MAPPING (BACKEND → UI)
-  // ===============================
+  
   String normalizeStatus(String status) {
     switch (status.toLowerCase()) {
       case "active":
@@ -141,7 +141,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
 
               const SizedBox(height: 16),
 
-              // ================= SEARCH =================
+              // SEARCH 
               TextField(
                 controller: searchController,
                 onChanged: (_) => setState(() {}),
@@ -189,7 +189,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
 
               const SizedBox(height: 8),
 
-              // ================= LIST =================
+              //  LIST 
               if (!isLoading)
                 Expanded(
                   child: ListView.builder(
@@ -221,7 +221,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
     );
   }
 
-  // ================= FILTER BUTTON =================
+  //  FILTER BUTTON 
   Widget _filterButton(String label) {
 
     final bool isSelected = selectedFilter == label;
