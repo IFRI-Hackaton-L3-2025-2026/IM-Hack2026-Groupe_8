@@ -443,11 +443,11 @@ Support décision maintenance
 #### 8. Défis Techniques Résolus
 
 
-- Synchronisation temps réel:Utilisation Timer contrôlé + Rx.
+- Synchronisation temps réel : Utilisation Timer contrôlé + Rx.
 
-- Simulation réaliste:Passage d’aléatoire brut à modèle pseudo-physique.
+- Simulation réaliste : Passage d’aléatoire brut à modèle pseudo-physique.
 
-- Performance graphique:Limitation données + adaptation dynamique axes.
+- Performance graphique : Limitation données + adaptation dynamique axes.
 
 
 
