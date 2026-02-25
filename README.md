@@ -444,13 +444,13 @@ Support décision maintenance
 
 
 - Synchronisation temps réel
-Utilisation Timer contrôlé + Rx.
+    -Utilisation Timer contrôlé + Rx.
 
 - Simulation réaliste
-Passage d’aléatoire brut à modèle pseudo-physique.
+    -Passage d’aléatoire brut à modèle pseudo-physique.
 
 - Performance graphique
-Limitation données + adaptation dynamique axes.
+    -Limitation données + adaptation dynamique axes.
 
 
 
