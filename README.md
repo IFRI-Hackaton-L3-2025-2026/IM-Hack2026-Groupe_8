@@ -528,88 +528,88 @@ Cette page joue le rôle de centre de contrôle.
 ## 2. Détail d’une Machine
 ### 2.1 Monitoring Capteurs Temps Réel
 
-Affichage en direct des indicateurs :
+    Affichage en direct des indicateurs :
 
-Température moyenne
+    Température moyenne
 
-Vibrations
+    Vibrations
 
-Courant
+    Courant
 
-RPM
+    RPM
 
-Énergie acoustique
+    Énergie acoustique
 
-Particules d’huile
+    Particules d’huile
 
-Âge maintenance
+    Âge maintenance
 
-Visualisation
+    Visualisation
 
-Jauges radiales (lecture instantanée)
+    Jauges radiales (lecture instantanée)
 
-Graphique linéaire des 20 derniers points
+    Graphique linéaire des 20 derniers points
 
-Logique backend associée
+    Logique backend associée
 
-Génération dynamique des données
+    Génération dynamique des données
 
-Simulation pseudo-physique
+    Simulation pseudo-physique
 
-Conservation d’un historique court (20 points)
+    Conservation d’un historique court (20 points)
 
-Fonction supplémentaire
+    Fonction supplémentaire
 
-Bouton “Maintenance” :
+    Bouton “Maintenance” :
 
-Envoie une requête POST au backend
+    Envoie une requête POST au backend
 
-Force les valeurs à état maintenance
+    Force les valeurs à état maintenance
 
-Permet test comportement système
+    Permet test comportement système
 
-Objectif
+    Objectif
 
-Permettre un diagnostic précis machine par machine.
+    Permettre un diagnostic précis machine par machine.
 
 ## 3. Système de Prédiction Simplifié
 
-Champ calculé : failure_next_24h
+    Champ calculé : failure_next_24h
 
-Logique utilisée
+    Logique utilisée
 
-Basée sur des seuils :
+    Basée sur des seuils :
 
-Température critique
+    Température critique
 
-Vibrations anormales
+    Vibrations anormales
 
-Surconsommation électrique
+    Surconsommation électrique
 
-Ce n’est pas une IA entraînée, mais :
+    Ce n’est pas une IA entraînée, mais :
 
-Une démonstration fonctionnelle
+    Une démonstration fonctionnelle
 
-Une architecture prête à accueillir un vrai modèle ML
+    Une architecture prête à accueillir un vrai modèle ML
 
-Utilité
+    Utilité
 
-Afficher une alerte proactive avant panne réelle.
+    Afficher une alerte proactive avant panne réelle.
 
 ## 4. Module Alertes
 ### 4.1 Détection Automatique
 
-Le système :
+    Le système :
 
-Analyse les statuts reçus
+    Analyse les statuts reçus
 
-Classe les machines en :
+    Classe les machines en :
 
-Critical
+    Critical
 
-Warning
+    Warning
 
-Info
+    Info
 
 ### 4.2 Interface dédiée
 
@@ -635,17 +635,17 @@ Probablement la fonctionnalité la plus avancée.
 
 ### 5.1 Consultation par Date
 
-Sélecteur Date
+    Sélecteur Date
 
-Chargement données CSV via API
+    Chargement données CSV via API
 
-Filtrage côté backend
+    Filtrage côté backend
 
-Limitation à 200 lignes :
+    Limitation à 200 lignes :
 
-Évite surcharge mémoire
+    Évite surcharge mémoire
 
-Maintient fluidité graphique
+    Maintient fluidité graphique
 
 ### 5.2 Sélection Multi-Capteurs
 
