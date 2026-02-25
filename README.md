@@ -621,13 +621,11 @@ Rafraîchissement automatique
 
 ### 4.3 Animation Visuelle
 
-Icône pulsante
+    Icône pulsante
 
-Signal visuel permanent tant qu’une alerte critique existe
+    Signal visuel permanent tant qu’une alerte critique existe
 
-Objectif
-
-Ne jamais laisser passer une panne silencieuse.
+    Objectif : Garantir qu'aucune défaillance technique ne reste "silencieuse" ou invisible pour l'équipe technique.
 
 ## 5. Time Machine (Analyse Historique)
 
